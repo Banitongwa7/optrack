@@ -1,10 +1,11 @@
+'use client'
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useState } from "react";
 
 
 
 export default function Home() {
-  const {open, setOpen} = useState(true)
+  const [open, setOpen] = useState(true)
   return (
     <div className="flex ">
       <div className={`bg-dark-purple h-screen p-5 pt-8 relative ${open ? "w-72" : "w-20"}`}>
