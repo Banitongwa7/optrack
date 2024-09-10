@@ -1,7 +1,7 @@
 'use client'
-import { BsArrowLeftShort } from "react-icons/bs";
+import { BsArrowLeftShort, BsFillImageFill, BsPerson, BsReverseLayoutTextSidebarReverse } from "react-icons/bs";
 import { useState } from "react";
-import {AiFillEnvironment} from "react-icons/ai"
+import {AiFillEnvironment, AiOutlineBarChart, AiOutlineFileText, AiOutlineLogout, AiOutlineMail, AiOutlineSetting} from "react-icons/ai"
 import { BsSearch } from "react-icons/bs";
 import {RiDashboardFill} from "react-icons/ri"
 
@@ -10,10 +10,11 @@ export default function Home() {
   const [open, setOpen] = useState(true)
   const Menus = [
     {title: "Dashboard" , icon: <RiDashboardFill/>},
-    {title: "Pages"},
-    {title: "Media", spacing : true},
+    {title: "Pages", icon: <AiOutlineFileText/>},
+    {title: "Media", spacing : true, icon: <BsFillImageFill/>},
     {
       title: "Projects",
+      icon: <BsReverseLayoutTextSidebarReverse/>,
       submenu: true,
       submenuItems:  [
         {title: "Project 1"},
@@ -21,11 +22,11 @@ export default function Home() {
         {title: "Project 3"},
       ]
     },
-    {title: "Analytics"},
-    {title: "Inbox"},
-    {title: "Profile", spacing : true},
-    {title: "Setting"},
-    {title: "Logout"}
+    {title: "Analytics", icon: <AiOutlineBarChart/>},
+    {title: "Inbox", icon: <AiOutlineMail/>},
+    {title: "Profile", spacing : true, icon: <BsPerson/>},
+    {title: "Setting", icon: <AiOutlineSetting/>},
+    {title: "Logout", icon: <AiOutlineLogout/>}
   ]
   return (
     <div className="flex ">
@@ -47,7 +48,7 @@ export default function Home() {
               <span className="text-2xl block float-left">
                 {menu.icon}
               </span>
-              <span className={`${!open && "hidden"} group-hover:block duration-300`}>{menu.title}</span>
+              <span className={`${!open && "hidden"} text-base font-medium flex-1 capitalize duration-300`}>{menu.title}</span>
             </li>
           ))}
         </ul>
