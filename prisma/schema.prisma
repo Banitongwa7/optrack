@@ -12,3 +12,22 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Opportunity {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  company String
+  type_opportunity String
+  remote Boolean
+  domain String
+  url String
+  country String
+  city String
+  begin_at DateTime
+  end_at DateTime
+  closed Boolean
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
