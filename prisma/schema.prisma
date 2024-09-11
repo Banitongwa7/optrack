@@ -18,6 +18,7 @@ model Opportunity {
   name String
   description String?
   company String
+  email_company String?
   type_opportunity String
   remote Boolean
   domain String?
