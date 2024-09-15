@@ -13,7 +13,10 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "OpTrack",
+  title: {
+    default : "OpTrack",
+    template: "%s | OpTrack",
+  },
   description: "OpTrack application developed by David Banitongwa",
   keywords: "optrack, optrack application, nextjs",
   author: "David Banitongwa",
