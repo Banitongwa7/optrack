@@ -9,7 +9,7 @@ import { ImEarth } from "react-icons/im";
 import { FaDatabase } from "react-icons/fa6"
 
 export default function NavBar() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const Menus = [
     {title: "Dashboard" , spacing : true, icon: <RiDashboardFill/>},
     {title: "Explore map", icon: <ImEarth/>},
