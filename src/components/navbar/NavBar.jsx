@@ -12,13 +12,13 @@ export default function NavBar() {
   const [open, setOpen] = useState(false)
   const Menus = [
     {title: "Dashboard" , spacing : true, icon: <RiDashboardFill/>},
-    {title: "Explore map", icon: <ImEarth/>},
-    {title: "Data", icon: <FaDatabase/>},
+    {title: "Map", icon: <ImEarth/>},
     {title: "Analytics", icon: <AiOutlineBarChart/>},
+    {title: "Explore Data", icon: <FaDatabase/>},
   ]
 
   return (
-    <div className={`bg-dark-purple h-screen p-5 pt-8 relative duration-300 ${open ? "w-72" : "w-20"}`}>
+    <div className={`bg-dark-purple h-screen p-5 pt-8 sticky top-0 duration-300 ${open ? "w-72" : "w-20"}`}>
         <MdArrowBackIosNew className={`bg-white p-1 text-gray-600 rounded-full text-3xl absolute -right-3 top-9 border border-dark-purple cursor-pointer ${!open && "rotate-180"}`} onClick={() => setOpen(!open)}/>
         <div className="inline-flex">
           <FaRegMap className={`bg-amber-300 text-dark-purple p-1 rounded text-4xl block cursor-pointer float-left duration-500 mr-2 ${open && "rotate-[360deg]"}`}/>
