@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./../styles/globals.css";
+import NavBar from "@/components/navbar/NavBar";
 
 const geistSans = localFont({
   src: "./../assets/fonts/GeistVF.woff",
@@ -14,7 +15,7 @@ const geistMono = localFont({
 
 export const metadata = {
   title: {
-    default : "OpTrack",
+    default: "OpTrack",
     template: "%s | OpTrack",
   },
   description: "OpTrack application developed by David Banitongwa",
@@ -29,7 +30,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="flex ">
+          <NavBar />
+          {children}
+        </div>
       </body>
     </html>
   );
