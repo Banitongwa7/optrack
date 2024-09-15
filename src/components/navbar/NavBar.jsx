@@ -7,15 +7,17 @@ import { FaRegMap } from "react-icons/fa"
 import { MdArrowBackIosNew } from "react-icons/md";
 import { ImEarth } from "react-icons/im";
 import { FaDatabase } from "react-icons/fa6"
+import { useRouter } from "next/navigation";
 
 export default function NavBar() {
   const [open, setOpen] = useState(false)
   const Menus = [
-    {title: "Dashboard" , spacing : true, icon: <RiDashboardFill/>},
-    {title: "Map", icon: <ImEarth/>},
-    {title: "Analytics", icon: <AiOutlineBarChart/>},
-    {title: "Explore Data", icon: <FaDatabase/>},
+    {title: "Dashboard" , spacing : true, icon: <RiDashboardFill/>, link: "/"},
+    {title: "Map", icon: <ImEarth/>, link: "/map"},
+    {title: "Analytics", icon: <AiOutlineBarChart/>, link: "/analytics"},
+    {title: "Explore Data", icon: <FaDatabase/>, link: "/explore"},
   ]
+  const router = useRouter()
 
   return (
     <div className={`bg-dark-purple h-screen p-5 pt-8 sticky top-0 duration-300 ${open ? "w-72" : "w-20"}`}>
@@ -32,7 +34,7 @@ export default function NavBar() {
 
         <ul className="pt-2">
           {Menus.map((menu, index) => (
-            <li key={index} className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-light-white rounded-md ${menu.spacing ? "mt-9" : "mt-2"}`}>
+            <li key={index} className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-light-white rounded-md ${menu.spacing ? "mt-9" : "mt-2"}`} onClick={() => router.push(menu.link)}>
               <span className="text-2xl block float-left">
                 {menu.icon}
               </span>
