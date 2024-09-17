@@ -25,6 +25,7 @@ model Opportunity {
   url String
   country String
   city String
+  year Int?
   begin_at DateTime?
   end_at DateTime?
   closed Boolean?
