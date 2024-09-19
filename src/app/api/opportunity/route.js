@@ -1,8 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 
 export async function GET() {
-    return Response.json({ message: 'world' })
+    const data = await prisma.opportunity.findMany()
+
+    return Response.json(data)
 }
 
 export async function POST() {
