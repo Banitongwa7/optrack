@@ -6,7 +6,6 @@ const prisma = new PrismaClient()
 
 export async function GET() {
     const data = await prisma.opportunity.findMany()
-
     return Response.json(data)
 }
 
