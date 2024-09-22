@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { IoLinkSharp } from "react-icons/io5";
 
 export default function TableData() {
@@ -9,13 +9,16 @@ export default function TableData() {
     const fetchData = async () => {
       const res = await fetch(`http://localhost:3000/api/opportunity?page=${page}`);
       const output = await res.json();
-      console.log(output)
       setData([...output.data]);
     };
 
     useEffect(() => {
       fetchData();
-    }, []);
+    }, [page]);
+
+    const memozedData = useMemo(() => {
+      return data;
+    }, [data]);
 
   return (
     <div className="bg-white shadow rounded-sm my-2.5 overflow-x-auto">
@@ -35,7 +38,7 @@ export default function TableData() {
         </thead>
         <tbody className="text-gray-600 text-sm font-medium">
           {
-            data.map((item, index) => (
+            memozedData.map((item, index) => (
                 <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
             <td className="py-3 px-6 text-left whitespace-nowrap">{item.name}</td>
             <td className="py-3 px-6 text-left">
