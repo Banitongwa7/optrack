@@ -1,8 +1,22 @@
-import React from "react";
-import Image from "next/image";
+"use client";
+import { useState, useEffect } from "react";
 import { IoLinkSharp } from "react-icons/io5";
 
 export default function TableData() {
+    const [data, setData] = useState([]);
+    const [page, setPage] = useState(1);
+    
+    const fetchData = async () => {
+      const res = await fetch(`http://localhost:3000/api/opportunity?page=${page}`);
+      const output = await res.json();
+      console.log(output)
+      setData([...output.data]);
+    };
+
+    useEffect(() => {
+      fetchData();
+    }, []);
+
   return (
     <div className="bg-white shadow rounded-sm my-2.5 overflow-x-auto">
       <table className="min-w-max w-full table-auto">
@@ -20,10 +34,12 @@ export default function TableData() {
           </tr>
         </thead>
         <tbody className="text-gray-600 text-sm font-medium">
-          <tr className="border-b border-gray-200 hover:bg-gray-100">
-            <td className="py-3 px-6 text-left whitespace-nowrap">Reactjs</td>
+          {
+            data.map((item, index) => (
+                <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
+            <td className="py-3 px-6 text-left whitespace-nowrap">{item.name}</td>
             <td className="py-3 px-6 text-left">
-                hello
+                {item.company}
             </td>
             <td className="py-3 px-6 text-center">Stage</td>
             <td className="py-3 px-6 text-center">
@@ -45,6 +61,8 @@ export default function TableData() {
               </div>
             </td>
           </tr>
+            ))
+          }
         </tbody>
       </table>
     </div>
