@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# OpTrack
 
-## Getting Started
+OpTrack centralizes internship, job, apprenticeship and freelance opportunities across countries. Explore them in a searchable table, on an interactive world map, or through analytics dashboards.
 
-First, run the development server:
+Built with [Next.js 14](https://nextjs.org/) (App Router), [Prisma](https://www.prisma.io/) + PostgreSQL, [Tailwind CSS](https://tailwindcss.com/), [Chart.js](https://www.chartjs.org/) and [react-simple-maps](https://www.react-simple-maps.io/).
+
+## Features
+
+- **Dashboard** — live counters (opportunities, countries, companies, domains), opportunities by year, breakdown by type, latest entries, open/closed and remote/on-site overview.
+- **Map** — world choropleth of opportunities by country with hover tooltips; click a country (or the ranking list) to jump to its filtered data.
+- **Analytics** — top countries, breakdown by domain, evolution by year, work mode and open-vs-closed charts.
+- **Explore Data** — paginated table with full-text search, country/type/status filters, add-opportunity form, mark-as-closed and delete actions.
+
+## Getting started
+
+### 1. Database
+
+The app needs a PostgreSQL database. Two options:
+
+**Remote (Neon, Vercel Postgres, Supabase…):** put the connection strings in `.env`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+DATABASE_URL="postgres://…-pooler…/db?sslmode=require"      # pooled (runtime)
+DATABASE_URL_UNPOOLED="postgres://…/db?sslmode=require"     # direct (migrations)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Local (no install needed):** an embedded PostgreSQL is bundled for development. `.env.local` already points to it.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npm run db:local   # starts PostgreSQL on localhost:5502 (keep it running)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 2. Install, migrate, seed
 
-## Learn More
+```bash
+npm install            # also runs prisma generate
+npm run db:migrate     # applies prisma/migrations
+npm run db:seed        # inserts 120 demo opportunities (skips if data exists)
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Run
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev            # http://localhost:3000
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
+| Script | Purpose |
+|---|---|
+| `npm run dev` | Development server |
+| `npm run build` / `npm start` | Production build / serve |
+| `npm run lint` | ESLint |
+| `npm run db:local` | Start the embedded local PostgreSQL (dev only) |
+| `npm run db:migrate` | Apply Prisma migrations (`prisma migrate deploy`) |
+| `npm run db:seed` | Seed demo data (`FORCE_SEED=1` to wipe and reseed) |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## API
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+| Endpoint | Description |
+|---|---|
+| `GET /api/opportunity?page=1&search=&country=&type=&status=&year=&remote=` | Paginated list (10/page) with filters |
+| `POST /api/opportunity` | Create (required: `name`, `company`, `type_opportunity`, `url`, `country`, `city`) |
+| `GET/PATCH/DELETE /api/opportunity/:id` | Read / update / delete one |
+| `GET /api/stats` | Aggregates for dashboard, analytics and map |
+
+## Deploying to Vercel
+
+1. Create a PostgreSQL database (e.g. [Neon](https://neon.tech) or Vercel Marketplace → Neon) and note the pooled + direct connection strings.
+2. In the Vercel project settings, set the environment variables `DATABASE_URL` (pooled) and `DATABASE_URL_UNPOOLED` (direct). Connecting the Neon integration sets them automatically.
+3. Deploy. `prisma generate` runs automatically via `postinstall`.
+4. Apply migrations and seed once, from your machine, against the production database:
+
+```bash
+DATABASE_URL="<pooled-url>" DATABASE_URL_UNPOOLED="<direct-url>" npx prisma migrate deploy
+DATABASE_URL="<pooled-url>" DATABASE_URL_UNPOOLED="<direct-url>" npx prisma db seed
+```
