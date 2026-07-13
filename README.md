@@ -7,9 +7,11 @@ Built with [Next.js 14](https://nextjs.org/) (App Router), [Prisma](https://www.
 ## Features
 
 - **Dashboard** — live counters (opportunities, countries, companies, domains), opportunities by year, breakdown by type, latest entries, open/closed and remote/on-site overview.
-- **Map** — world choropleth of opportunities by country with hover tooltips; click a country (or the ranking list) to jump to its filtered data.
+- **Map** — opportunities by country on Google Maps (proportional markers) or a built-in world choropleth, with month/year filters, zoom, hover tooltips and a ranked side panel; click a country (or the ranking list) to jump to its filtered data.
 - **Analytics** — top countries, breakdown by domain, evolution by year, work mode and open-vs-closed charts.
-- **Explore Data** — paginated table with full-text search, country/type/status filters, add-opportunity form, mark-as-closed and delete actions.
+- **Explore Data** — paginated table with full-text search; country, type, domain, year, status and work-mode filters; sortable columns; a detail sheet per opportunity; CSV export of the current view; shareable filter URLs.
+
+OpTrack is **read-only by design**: the web app is for consulting opportunities, not editing them. Data is managed through the seed script or `npx prisma studio`.
 
 ## Getting started
 
@@ -38,7 +40,18 @@ npm run db:migrate     # applies prisma/migrations
 npm run db:seed        # inserts 120 demo opportunities (skips if data exists)
 ```
 
-### 3. Run
+### 3. Google Maps (optional)
+
+The map page has two views: a built-in world choropleth (no setup) and a Google Maps view. To enable the latter, create an API key in the [Google Cloud console](https://console.cloud.google.com/google/maps-apis) (enable **Maps JavaScript API**) and add it to `.env.local` (and to the hosting environment in production):
+
+```bash
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your-key
+NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID=your-map-id   # optional, for custom styling
+```
+
+Without a key the app automatically falls back to the world view.
+
+### 4. Run
 
 ```bash
 npm run dev            # http://localhost:3000
@@ -57,12 +70,14 @@ npm run dev            # http://localhost:3000
 
 ## API
 
+The API is read-only.
+
 | Endpoint | Description |
 |---|---|
-| `GET /api/opportunity?page=1&search=&country=&type=&status=&year=&remote=` | Paginated list (10/page) with filters |
-| `POST /api/opportunity` | Create (required: `name`, `company`, `type_opportunity`, `url`, `country`, `city`) |
-| `GET/PATCH/DELETE /api/opportunity/:id` | Read / update / delete one |
-| `GET /api/stats` | Aggregates for dashboard, analytics and map |
+| `GET /api/opportunity?page=1&search=&country=&type=&domain=&status=&year=&remote=&sort=&dir=` | Paginated list (10/page) with filters and sorting |
+| `GET /api/opportunity/:id` | One opportunity |
+| `GET /api/opportunity/export?…` | CSV export (same filters as the list) |
+| `GET /api/stats?year=&month=` | Aggregates for dashboard, analytics and map |
 
 ## Deploying to Vercel
 
