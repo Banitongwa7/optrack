@@ -2,6 +2,8 @@ import DashboardClient from "@/components/dashboard/DashboardClient";
 
 export const metadata = {
   title: "Dashboard",
+  description:
+    "Live counters and charts: total opportunities, countries, companies, type breakdown, yearly evolution and latest entries.",
 };
 
 export default function Home() {

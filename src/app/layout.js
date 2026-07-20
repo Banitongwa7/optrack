@@ -18,10 +18,42 @@ export const metadata = {
     default: "OpTrack",
     template: "%s | OpTrack",
   },
-  description: "OpTrack application developed by David Banitongwa",
-  keywords: "optrack, optrack application, nextjs",
-  author: "David Banitongwa",
-  charset: "utf-8",
+  description:
+    "OpTrack centralizes internship, job, apprenticeship and freelance opportunities across countries. Explore them via an interactive map, analytics dashboards, or a searchable table.",
+  keywords: [
+    "optrack",
+    "internship tracker",
+    "job opportunities",
+    "apprenticeship",
+    "freelance",
+    "world map",
+    "analytics",
+    "nextjs",
+  ],
+  authors: [{ name: "David Banitongwa" }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  openGraph: {
+    title: "OpTrack",
+    description:
+      "Centralize and explore internship, job, apprenticeship and freelance opportunities across the world.",
+    type: "website",
+    siteName: "OpTrack",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "OpTrack",
+    description:
+      "Centralize and explore internship, job, apprenticeship and freelance opportunities across the world.",
+    creator: "@Banitongwa7",
+  },
 };
 
 export default function RootLayout({ children }) {
