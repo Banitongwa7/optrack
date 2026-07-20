@@ -2,6 +2,8 @@ import MapPageClient from "@/components/map/MapPageClient";
 
 export const metadata = {
   title: "Map",
+  description:
+    "Explore opportunities by country on an interactive world choropleth or Google Maps view, with month/year filters, zoom, tooltips and a ranked side panel.",
 };
 
 export default function MapPage() {

@@ -2,6 +2,8 @@ import AnalyticsClient from "@/components/analytics/AnalyticsClient";
 
 export const metadata = {
   title: "Analytics",
+  description:
+    "Visualize opportunity trends: top countries, domain breakdown, yearly evolution, work-mode distribution and open vs. closed ratios.",
 };
 
 export default function AnalyticsPage() {
