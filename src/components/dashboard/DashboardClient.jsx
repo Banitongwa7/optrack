@@ -11,7 +11,7 @@ import {
   BAR_STYLE,
   DOUGHNUT_STYLE,
 } from "@/lib/chartjs";
-import { SERIES, STATUS } from "@/lib/palette";
+import { SERIES } from "@/lib/palette";
 import StatCard from "@/components/ui/StatCard";
 import { ChartCard, ChartLegend, ChartSkeleton } from "@/components/ui/ChartCard";
 
@@ -64,11 +64,11 @@ export default function DashboardClient() {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 py-6">
-        <StatCard label="Opportunities" value={totals?.opportunities} icon={GrValidate} />
-        <StatCard label="Countries" value={totals?.countries} icon={BiWorld} />
-        <StatCard label="Companies" value={totals?.companies} icon={GoOrganization} />
-        <StatCard label="Domains" value={totals?.domains} icon={BiSolidCategoryAlt} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 py-6">
+        <StatCard label="Opportunities" value={totals?.opportunities} icon={GrValidate} iconColor="text-indigo-500" iconBg="bg-indigo-50" />
+        <StatCard label="Countries" value={totals?.countries} icon={BiWorld} iconColor="text-blue-500" iconBg="bg-blue-50" />
+        <StatCard label="Companies" value={totals?.companies} icon={GoOrganization} iconColor="text-emerald-500" iconBg="bg-emerald-50" />
+        <StatCard label="Domains" value={totals?.domains} icon={BiSolidCategoryAlt} iconColor="text-violet-500" iconBg="bg-violet-50" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -84,11 +84,11 @@ export default function DashboardClient() {
 
         <ChartCard title="By opportunity type">
           {typeData ? (
-            <div className="flex items-center gap-6">
-              <div className="h-64 flex-1 min-w-0">
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              <div className="h-64 w-full sm:flex-1 sm:min-w-0">
                 <Doughnut data={typeData} options={doughnutOptions()} />
               </div>
-              <div className="w-44 shrink-0">
+              <div className="sm:w-44 sm:shrink-0 w-full">
                 <ChartLegend
                   items={stats.byType.map((t, i) => ({
                     label: t.label,
@@ -116,7 +116,7 @@ export default function DashboardClient() {
                       {item.company} · {item.country}
                     </p>
                   </div>
-                  <span className="text-xs bg-gray-100 text-gray-600 rounded-full px-2.5 py-1 shrink-0">
+                  <span className="text-xs bg-indigo-50 text-indigo-700 rounded-full px-2.5 py-1 shrink-0 font-medium">
                     {item.type_opportunity}
                   </span>
                 </li>
@@ -127,7 +127,7 @@ export default function DashboardClient() {
           )}
           <Link
             href="/explore"
-            className="inline-block mt-3 text-sm font-medium text-blue-700 hover:underline"
+            className="inline-flex items-center gap-1 mt-4 text-sm font-medium text-indigo-600 hover:text-indigo-800 hover:underline transition-colors"
           >
             Explore all data →
           </Link>
@@ -136,23 +136,23 @@ export default function DashboardClient() {
         <ChartCard title="Overview">
           {totals ? (
             <ul className="space-y-3 text-sm">
-              <li className="flex justify-between">
+              <li className="flex justify-between items-center">
                 <span className="text-gray-600">Open positions</span>
-                <span className="font-semibold" style={{ color: STATUS.good }}>
+                <span className="font-semibold px-2.5 py-0.5 rounded-full bg-green-50 text-green-700 text-xs">
                   ✓ {totals.open}
                 </span>
               </li>
-              <li className="flex justify-between">
+              <li className="flex justify-between items-center">
                 <span className="text-gray-600">Closed positions</span>
-                <span className="font-semibold" style={{ color: STATUS.critical }}>
+                <span className="font-semibold px-2.5 py-0.5 rounded-full bg-red-50 text-red-700 text-xs">
                   ✕ {totals.closed}
                 </span>
               </li>
-              <li className="flex justify-between border-t border-gray-100 pt-3">
+              <li className="flex justify-between items-center border-t border-gray-100 pt-3">
                 <span className="text-gray-600">Remote</span>
                 <span className="font-semibold text-gray-900">{totals.remote}</span>
               </li>
-              <li className="flex justify-between">
+              <li className="flex justify-between items-center">
                 <span className="text-gray-600">On-site</span>
                 <span className="font-semibold text-gray-900">{totals.onSite}</span>
               </li>

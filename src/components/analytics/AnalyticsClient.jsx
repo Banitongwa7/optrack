@@ -111,11 +111,11 @@ export default function AnalyticsClient() {
 
       <ChartCard title="Opportunities by domain">
         {domainData ? (
-          <div className="flex items-center gap-6">
-            <div className="h-72 flex-1 min-w-0">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <div className="h-72 w-full sm:flex-1 sm:min-w-0">
               <Doughnut data={domainData} options={doughnutOptions()} />
             </div>
-            <div className="w-52 shrink-0">
+            <div className="sm:w-52 sm:shrink-0 w-full">
               <ChartLegend
                 items={stats.byDomain.map((d, i) => ({
                   label: d.label,
@@ -142,11 +142,11 @@ export default function AnalyticsClient() {
 
       <ChartCard title="Work mode">
         {workModeData ? (
-          <div className="flex items-center gap-6">
-            <div className="h-56 flex-1 min-w-0">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <div className="h-56 w-full sm:flex-1 sm:min-w-0">
               <Doughnut data={workModeData} options={doughnutOptions()} />
             </div>
-            <div className="w-44 shrink-0">
+            <div className="sm:w-44 sm:shrink-0 w-full">
               <ChartLegend
                 items={[
                   { label: "Remote", value: stats.totals.remote, color: SERIES[0] },
@@ -162,11 +162,11 @@ export default function AnalyticsClient() {
 
       <ChartCard title="Open vs closed">
         {statusData ? (
-          <div className="flex items-center gap-6">
-            <div className="h-56 flex-1 min-w-0">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <div className="h-56 w-full sm:flex-1 sm:min-w-0">
               <Doughnut data={statusData} options={doughnutOptions()} />
             </div>
-            <div className="w-44 shrink-0">
+            <div className="sm:w-44 sm:shrink-0 w-full">
               <ChartLegend
                 items={[
                   { label: "✓ Open", value: stats.totals.open, color: STATUS.good },

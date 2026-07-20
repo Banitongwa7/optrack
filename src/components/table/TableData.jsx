@@ -7,7 +7,7 @@ import { MdChevronLeft, MdChevronRight, MdArrowDropUp, MdArrowDropDown } from "r
 import OpportunityDetailModal from "@/components/opportunity/OpportunityDetailModal";
 
 const selectClass =
-  "border border-gray-300 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-dark-purple/40";
+  "border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 transition";
 
 const FILTER_KEYS = ["search", "country", "type", "domain", "status", "remote", "year", "sort", "dir", "page"];
 
@@ -123,63 +123,66 @@ export default function TableData() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-3 mb-4">
-        <div className="relative flex-1 min-w-56">
+      {/* ── Filter bar ──────────────────────────────────────── */}
+      <div className="flex flex-wrap items-center gap-2 mb-4">
+        <div className="relative w-full sm:flex-1 sm:min-w-52">
           <BsSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="search"
             value={searchText}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search title, company, domain…"
-            className="w-full border border-gray-300 rounded-md pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-dark-purple/40"
+            className="w-full border border-gray-200 rounded-lg pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 transition"
           />
         </div>
-        <select value={filters.country} onChange={(e) => setFilters({ country: e.target.value })} className={selectClass} aria-label="Country">
-          <option value="">All countries</option>
-          {options.countries.map((c) => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
-        <select value={filters.type} onChange={(e) => setFilters({ type: e.target.value })} className={selectClass} aria-label="Type">
-          <option value="">All types</option>
-          {options.types.map((t) => (
-            <option key={t} value={t}>{t}</option>
-          ))}
-        </select>
-        <select value={filters.domain} onChange={(e) => setFilters({ domain: e.target.value })} className={selectClass} aria-label="Domain">
-          <option value="">All domains</option>
-          {options.domains.map((d) => (
-            <option key={d} value={d}>{d}</option>
-          ))}
-        </select>
-        <select value={filters.year} onChange={(e) => setFilters({ year: e.target.value })} className={selectClass} aria-label="Year">
-          <option value="">All years</option>
-          {options.years.map((y) => (
-            <option key={y} value={y}>{y}</option>
-          ))}
-        </select>
-        <select value={filters.status} onChange={(e) => setFilters({ status: e.target.value })} className={selectClass} aria-label="Status">
-          <option value="">All statuses</option>
-          <option value="open">Open</option>
-          <option value="closed">Closed</option>
-        </select>
-        <select value={filters.remote} onChange={(e) => setFilters({ remote: e.target.value })} className={selectClass} aria-label="Work mode">
-          <option value="">Remote & on-site</option>
-          <option value="true">Remote</option>
-          <option value="false">On-site</option>
-        </select>
-        {hasFilters && (
-          <button
-            onClick={() => router.replace("/explore", { scroll: false })}
-            className="text-sm text-gray-500 hover:text-gray-800 underline"
-          >
-            Reset
-          </button>
-        )}
+        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+          <select value={filters.country} onChange={(e) => setFilters({ country: e.target.value })} className={selectClass} aria-label="Country">
+            <option value="">All countries</option>
+            {options.countries.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+          <select value={filters.type} onChange={(e) => setFilters({ type: e.target.value })} className={selectClass} aria-label="Type">
+            <option value="">All types</option>
+            {options.types.map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </select>
+          <select value={filters.domain} onChange={(e) => setFilters({ domain: e.target.value })} className={selectClass} aria-label="Domain">
+            <option value="">All domains</option>
+            {options.domains.map((d) => (
+              <option key={d} value={d}>{d}</option>
+            ))}
+          </select>
+          <select value={filters.year} onChange={(e) => setFilters({ year: e.target.value })} className={selectClass} aria-label="Year">
+            <option value="">All years</option>
+            {options.years.map((y) => (
+              <option key={y} value={y}>{y}</option>
+            ))}
+          </select>
+          <select value={filters.status} onChange={(e) => setFilters({ status: e.target.value })} className={selectClass} aria-label="Status">
+            <option value="">All statuses</option>
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+          </select>
+          <select value={filters.remote} onChange={(e) => setFilters({ remote: e.target.value })} className={selectClass} aria-label="Work mode">
+            <option value="">Remote & on-site</option>
+            <option value="true">Remote</option>
+            <option value="false">On-site</option>
+          </select>
+          {hasFilters && (
+            <button
+              onClick={() => router.replace("/explore", { scroll: false })}
+              className="text-sm text-gray-500 hover:text-gray-800 underline px-1"
+            >
+              Reset
+            </button>
+          )}
+        </div>
         <a
           href={exportUrl}
           download
-          className="flex items-center gap-2 ml-auto border border-gray-300 bg-white text-gray-700 text-sm rounded-md px-3.5 py-2 hover:bg-gray-50"
+          className="flex items-center gap-2 sm:ml-auto border border-gray-200 bg-white text-gray-700 text-sm rounded-lg px-3.5 py-2 hover:bg-gray-50 transition shrink-0"
           title="Download the current view as CSV"
         >
           <BsDownload className="w-4 h-4" /> Export CSV
@@ -192,18 +195,18 @@ export default function TableData() {
         </div>
       )}
 
-      <div className="bg-white shadow rounded-sm overflow-x-auto">
+      <div className="bg-white shadow-sm rounded-xl border border-gray-100 overflow-x-auto">
         <table className="min-w-max w-full table-auto">
           <thead>
-            <tr className="bg-dark-purple text-white uppercase text-sm leading-normal">
+            <tr className="bg-dark-purple text-white uppercase text-xs leading-normal">
               {COLUMNS.map((col) => (
                 <th
                   key={col.label}
-                  className={`py-3 px-6 ${col.align} ${col.sort ? "cursor-pointer select-none hover:bg-white/10" : ""}`}
+                  className={`py-3 px-5 ${col.align} ${col.sort ? "cursor-pointer select-none hover:bg-white/10" : ""}`}
                   onClick={() => toggleSort(col.sort)}
                   title={col.sort ? "Sort" : undefined}
                 >
-                  <span className="inline-flex items-center">
+                  <span className="inline-flex items-center gap-0.5 tracking-wider">
                     {col.label}
                     {col.sort && filters.sort === col.sort && (
                       filters.dir === "asc" ? (
@@ -217,35 +220,39 @@ export default function TableData() {
               ))}
             </tr>
           </thead>
-          <tbody className="text-gray-600 text-sm font-medium">
+          <tbody className="text-gray-600 text-sm">
             {data.map((item) => (
               <tr
                 key={item.id}
-                className="border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
+                className="border-b border-gray-100 hover:bg-indigo-50/40 cursor-pointer transition-colors"
                 onClick={() => setSelected(item)}
                 title="View details"
               >
-                <td className="py-3 px-6 text-left whitespace-nowrap max-w-xs truncate">{item.name}</td>
-                <td className="py-3 px-6 text-left">{item.company}</td>
-                <td className="py-3 px-6 text-center">{item.type_opportunity}</td>
-                <td className="py-3 px-6 text-center">{item.domain ?? "—"}</td>
-                <td className="py-3 px-6 text-center">{item.country}</td>
-                <td className="py-3 px-6 text-center">
+                <td className="py-3 px-5 text-left whitespace-nowrap max-w-xs truncate font-medium text-gray-800">{item.name}</td>
+                <td className="py-3 px-5 text-left text-gray-600">{item.company}</td>
+                <td className="py-3 px-5 text-center">
+                  <span className="bg-indigo-50 text-indigo-700 py-0.5 px-2.5 rounded-full text-xs font-medium">
+                    {item.type_opportunity}
+                  </span>
+                </td>
+                <td className="py-3 px-5 text-center text-gray-600">{item.domain ?? "—"}</td>
+                <td className="py-3 px-5 text-center text-gray-600">{item.country}</td>
+                <td className="py-3 px-5 text-center">
                   {item.remote ? (
-                    <span className="bg-blue-100 text-blue-700 py-1 px-3 rounded-full text-xs">Remote</span>
+                    <span className="bg-blue-50 text-blue-700 py-0.5 px-2.5 rounded-full text-xs font-medium">Remote</span>
                   ) : (
-                    item.city
+                    <span className="text-gray-600">{item.city}</span>
                   )}
                 </td>
-                <td className="py-3 px-6 text-center">
+                <td className="py-3 px-5 text-center">
                   {item.closed ? (
-                    <span className="bg-red-200 text-red-700 py-1 px-3 rounded-full text-xs">Closed</span>
+                    <span className="bg-red-50 text-red-700 py-0.5 px-2.5 rounded-full text-xs font-medium">Closed</span>
                   ) : (
-                    <span className="bg-green-200 text-green-700 py-1 px-3 rounded-full text-xs">Open</span>
+                    <span className="bg-green-50 text-green-700 py-0.5 px-2.5 rounded-full text-xs font-medium">Open</span>
                   )}
                 </td>
-                <td className="py-3 px-6 text-center">{item.year ?? "—"}</td>
-                <td className="py-3 px-6">
+                <td className="py-3 px-5 text-center text-gray-600">{item.year ?? "—"}</td>
+                <td className="py-3 px-5">
                   <div className="flex items-center justify-center">
                     <a
                       href={item.url}
@@ -253,8 +260,9 @@ export default function TableData() {
                       rel="noopener noreferrer"
                       aria-label={`Open ${item.name}`}
                       onClick={(e) => e.stopPropagation()}
+                      className="text-gray-400 hover:text-indigo-600 transition-colors"
                     >
-                      <IoLinkSharp className="w-5 h-5 transform hover:text-purple-500 hover:scale-110 cursor-pointer" />
+                      <IoLinkSharp className="w-5 h-5 hover:scale-110 transition-transform" />
                     </a>
                   </div>
                 </td>
@@ -262,35 +270,44 @@ export default function TableData() {
             ))}
             {!loading && data.length === 0 && !error && (
               <tr>
-                <td colSpan={COLUMNS.length} className="py-10 text-center text-gray-400">
+                <td colSpan={COLUMNS.length} className="py-12 text-center text-gray-400">
                   No opportunities match your filters.
+                </td>
+              </tr>
+            )}
+            {loading && (
+              <tr>
+                <td colSpan={COLUMNS.length} className="py-6 text-center text-sm text-gray-400">
+                  <span className="inline-flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-indigo-300 border-t-indigo-600 rounded-full animate-spin" />
+                    Loading…
+                  </span>
                 </td>
               </tr>
             )}
           </tbody>
         </table>
-        {loading && <div className="py-4 text-center text-sm text-gray-400">Loading…</div>}
       </div>
 
       <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
-        <span>
-          {result ? `${result.countData} opportunit${result.countData === 1 ? "y" : "ies"}` : ""}
+        <span className="text-gray-500">
+          {result ? `${result.countData.toLocaleString()} opportunit${result.countData === 1 ? "y" : "ies"}` : ""}
         </span>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setFilters({ page: String(Math.max(1, page - 1)) })}
             disabled={page <= 1}
             aria-label="Previous page"
-            className="p-1.5 rounded-md border border-gray-300 disabled:opacity-40 hover:bg-gray-100"
+            className="p-1.5 rounded-lg border border-gray-200 disabled:opacity-40 hover:bg-gray-50 transition-colors"
           >
             <MdChevronLeft className="w-5 h-5" />
           </button>
-          <span className="tabular-nums">Page {page} / {totalPage}</span>
+          <span className="tabular-nums text-gray-600">Page {page} / {totalPage}</span>
           <button
             onClick={() => setFilters({ page: String(Math.min(totalPage, page + 1)) })}
             disabled={page >= totalPage}
             aria-label="Next page"
-            className="p-1.5 rounded-md border border-gray-300 disabled:opacity-40 hover:bg-gray-100"
+            className="p-1.5 rounded-lg border border-gray-200 disabled:opacity-40 hover:bg-gray-50 transition-colors"
           >
             <MdChevronRight className="w-5 h-5" />
           </button>
