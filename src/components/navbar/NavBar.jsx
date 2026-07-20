@@ -28,13 +28,18 @@ export default function NavBar() {
     setMobileOpen(false);
   }, [pathname]);
 
-  const submitSearch = (e) => {
-    if (e && e.preventDefault) e.preventDefault();
+  // Shared search logic — called from the form submit handler or icon click
+  const doSearch = () => {
     const q = query.trim();
     if (!q) return;
     setQuery("");
     setMobileOpen(false);
     router.push(`/explore?search=${encodeURIComponent(q)}`);
+  };
+
+  const submitSearch = (e) => {
+    e.preventDefault();
+    doSearch();
   };
 
   return (
@@ -136,7 +141,7 @@ export default function NavBar() {
         >
           <BsSearch
             className={`text-white text-lg block float-left cursor-pointer ${open && "mr-2"}`}
-            onClick={() => (open ? submitSearch() : setOpen(true))}
+            onClick={() => (open ? doSearch() : setOpen(true))}
           />
           <input
             type="search"
