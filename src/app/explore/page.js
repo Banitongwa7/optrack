@@ -3,6 +3,8 @@ import TableData from "@/components/table/TableData";
 
 export const metadata = {
   title: "Explore Data",
+  description:
+    "Browse and filter all opportunities in a paginated table with full-text search, country, type, domain, year and status filters. Export to CSV.",
 };
 
 export default function ExplorePage() {
