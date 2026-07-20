@@ -28,26 +28,30 @@ export default function OpportunityDetailModal({ item, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/40 flex items-start justify-center overflow-y-auto py-10 px-4"
+      className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center overflow-y-auto py-10 px-4"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg shadow-xl w-full max-w-xl"
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between border-b border-gray-200 px-6 py-4 gap-4">
+        <div className="flex items-start justify-between border-b border-gray-100 px-6 py-5 gap-4">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">{item.name}</h2>
-            <p className="text-sm text-gray-500">{item.company}</p>
+            <h2 className="text-lg font-semibold text-gray-900 leading-snug">{item.name}</h2>
+            <p className="text-sm text-gray-500 mt-0.5">{item.company}</p>
           </div>
-          <button onClick={onClose} aria-label="Close" className="text-gray-400 hover:text-gray-600 shrink-0">
-            <IoClose className="w-6 h-6" />
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-1.5 rounded-lg transition-colors shrink-0"
+          >
+            <IoClose className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="px-6 py-4 space-y-4">
+        <div className="px-6 py-5 space-y-4">
           <div className="flex flex-wrap gap-2">
-            <span className="bg-gray-100 text-gray-700 py-1 px-3 rounded-full text-xs font-medium">
+            <span className="bg-indigo-50 text-indigo-700 py-1 px-3 rounded-full text-xs font-medium">
               {item.type_opportunity}
             </span>
             {item.domain && (
@@ -56,12 +60,12 @@ export default function OpportunityDetailModal({ item, onClose }) {
               </span>
             )}
             {item.closed ? (
-              <span className="bg-red-200 text-red-700 py-1 px-3 rounded-full text-xs font-medium">Closed</span>
+              <span className="bg-red-50 text-red-700 py-1 px-3 rounded-full text-xs font-medium">Closed</span>
             ) : (
-              <span className="bg-green-200 text-green-700 py-1 px-3 rounded-full text-xs font-medium">Open</span>
+              <span className="bg-green-50 text-green-700 py-1 px-3 rounded-full text-xs font-medium">Open</span>
             )}
             {item.remote && (
-              <span className="bg-blue-100 text-blue-700 py-1 px-3 rounded-full text-xs font-medium">Remote</span>
+              <span className="bg-blue-50 text-blue-700 py-1 px-3 rounded-full text-xs font-medium">Remote</span>
             )}
           </div>
 
@@ -72,13 +76,13 @@ export default function OpportunityDetailModal({ item, onClose }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-100 pt-4">
             <Row label="Location">
               <span className="flex items-center gap-1.5">
-                <MdOutlineLocationOn className="text-gray-400 w-4 h-4" />
+                <MdOutlineLocationOn className="text-gray-400 w-4 h-4 shrink-0" />
                 {item.city}, {item.country}
               </span>
             </Row>
             <Row label="Period">
               <span className="flex items-center gap-1.5">
-                <MdOutlineCalendarToday className="text-gray-400 w-4 h-4" />
+                <MdOutlineCalendarToday className="text-gray-400 w-4 h-4 shrink-0" />
                 {period}
               </span>
             </Row>
@@ -87,9 +91,9 @@ export default function OpportunityDetailModal({ item, onClose }) {
               {item.email_company ? (
                 <a
                   href={`mailto:${item.email_company}`}
-                  className="flex items-center gap-1.5 text-blue-700 hover:underline"
+                  className="flex items-center gap-1.5 text-indigo-600 hover:text-indigo-800 hover:underline transition-colors"
                 >
-                  <MdOutlineMailOutline className="w-4 h-4" />
+                  <MdOutlineMailOutline className="w-4 h-4 shrink-0" />
                   {item.email_company}
                 </a>
               ) : (
@@ -104,7 +108,7 @@ export default function OpportunityDetailModal({ item, onClose }) {
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-dark-purple text-white text-sm rounded-md px-4 py-2 hover:opacity-90"
+            className="flex items-center gap-2 bg-dark-purple text-white text-sm rounded-xl px-5 py-2.5 hover:opacity-90 transition-opacity font-medium"
           >
             <IoOpenOutline className="w-4 h-4" /> Open the offer
           </a>

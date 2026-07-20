@@ -1,7 +1,7 @@
 export function ChartCard({ title, children, className = "" }) {
   return (
-    <div className={`bg-white shadow rounded-md p-5 ${className}`}>
-      <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-4">
+    <div className={`bg-white shadow-sm rounded-xl border border-gray-100 p-5 ${className}`}>
+      <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
         {title}
       </h2>
       {children}
