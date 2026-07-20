@@ -14,7 +14,7 @@ const MONTHS = [
 ];
 
 const selectClass =
-  "border border-gray-300 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-dark-purple/40 disabled:bg-gray-100 disabled:text-gray-400";
+  "border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 disabled:bg-gray-100 disabled:text-gray-400 transition";
 
 function ViewToggle({ view, setView }) {
   const tabs = [
@@ -22,16 +22,16 @@ function ViewToggle({ view, setView }) {
     { id: "world", label: "World view", icon: <FaGlobeAfrica />, disabled: false },
   ];
   return (
-    <div className="inline-flex rounded-md border border-gray-300 bg-white p-0.5">
+    <div className="inline-flex rounded-xl border border-gray-200 bg-white p-0.5 shadow-sm">
       {tabs.map((tab) => (
         <button
           key={tab.id}
           onClick={() => setView(tab.id)}
           disabled={tab.disabled}
           title={tab.disabled ? "Requires a Google Maps API key (see README)" : undefined}
-          className={`flex items-center gap-2 px-3 py-1.5 text-sm rounded ${
+          className={`flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg transition-colors ${
             view === tab.id
-              ? "bg-dark-purple text-white"
+              ? "bg-dark-purple text-white shadow-sm"
               : "text-gray-600 hover:bg-gray-100 disabled:opacity-40 disabled:hover:bg-transparent"
           }`}
         >
@@ -81,7 +81,7 @@ export default function MapPageClient() {
   return (
     <div className="py-6">
       {!GOOGLE_MAPS_KEY && (
-        <div className="bg-blue-50 border border-blue-200 text-blue-800 rounded-md px-4 py-3 text-sm mb-4">
+        <div className="bg-blue-50 border border-blue-200 text-blue-800 rounded-xl px-4 py-3 text-sm mb-4">
           The Google Maps view is disabled: set <code className="font-mono bg-blue-100 px-1 rounded">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code> in
           your environment to enable it (see README). Showing the built-in world view instead.
         </div>
@@ -90,7 +90,7 @@ export default function MapPageClient() {
       <div className="flex flex-wrap items-center gap-3 mb-4">
         <ViewToggle view={view} setView={setView} />
 
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
           <select
             value={year}
             onChange={(e) => {
@@ -155,19 +155,19 @@ export default function MapPageClient() {
 
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white shadow rounded-md p-4 text-center">
-              <p className="text-2xl font-semibold text-gray-900">
+            <div className="bg-white shadow-sm rounded-xl border border-gray-100 p-4 text-center">
+              <p className="text-2xl font-bold text-gray-900">
                 {stats?.totals.opportunities ?? "—"}
               </p>
-              <p className="text-xs text-gray-500 uppercase font-semibold mt-1">
+              <p className="text-xs text-gray-500 uppercase font-semibold mt-1 tracking-wider">
                 Opportunities
               </p>
             </div>
-            <div className="bg-white shadow rounded-md p-4 text-center">
-              <p className="text-2xl font-semibold text-gray-900">
+            <div className="bg-white shadow-sm rounded-xl border border-gray-100 p-4 text-center">
+              <p className="text-2xl font-bold text-gray-900">
                 {stats?.totals.countries ?? "—"}
               </p>
-              <p className="text-xs text-gray-500 uppercase font-semibold mt-1">
+              <p className="text-xs text-gray-500 uppercase font-semibold mt-1 tracking-wider">
                 Countries
               </p>
             </div>
@@ -183,16 +183,16 @@ export default function MapPageClient() {
                     <li key={c.label}>
                       <button
                         onClick={() => goToCountry(c.label)}
-                        className="w-full text-sm py-1.5 px-2 rounded hover:bg-gray-100 text-left"
+                        className="w-full text-sm py-1.5 px-2 rounded-lg hover:bg-indigo-50/60 text-left transition-colors"
                       >
                         <span className="flex items-center gap-2">
                           <span className="text-gray-400 w-6 shrink-0 tabular-nums">{i + 1}.</span>
                           <span className="text-gray-700 flex-1 truncate">{c.label}</span>
                           <span className="font-semibold text-gray-900 tabular-nums">{c.count}</span>
                         </span>
-                        <span className="block ml-8 mt-1 h-1 rounded bg-gray-100">
+                        <span className="block ml-8 mt-1 h-1.5 rounded-full bg-gray-100">
                           <span
-                            className="block h-1 rounded bg-dark-purple/70"
+                            className="block h-1.5 rounded-full bg-dark-purple/70"
                             style={{ width: `${(c.count / maxCount) * 100}%` }}
                           />
                         </span>
