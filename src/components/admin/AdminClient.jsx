@@ -26,6 +26,7 @@ export default function AdminClient({ email }) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
   const [form, setForm] = useState(EMPTY_FORM);
 
   const selectedId = useMemo(() => Number(form.id), [form.id]);
@@ -118,7 +119,6 @@ export default function AdminClient({ email }) {
   };
 
   const remove = async (id) => {
-    if (!window.confirm("Supprimer cette opportunité ?")) return;
     setError("");
     setMessage("");
 
@@ -134,6 +134,7 @@ export default function AdminClient({ email }) {
     if (String(form.id) === String(id)) resetForm();
     setMessage("Opportunité supprimée.");
     await loadRows();
+    setDeletingId(null);
   };
 
   const logout = async () => {
@@ -262,7 +263,7 @@ export default function AdminClient({ email }) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => remove(row.id)}
+                    onClick={() => setDeletingId(row.id)}
                     className="text-sm text-red-600 hover:text-red-700"
                   >
                     Supprimer
@@ -273,6 +274,40 @@ export default function AdminClient({ email }) {
           )}
         </div>
       </div>
+
+      {deletingId !== null && (
+        <div
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="delete-title"
+        >
+          <div className="w-full max-w-md bg-white rounded-lg p-5 border border-gray-200">
+            <h3 id="delete-title" className="text-lg font-medium text-gray-900">
+              Confirmer la suppression
+            </h3>
+            <p className="text-sm text-gray-600 mt-2">
+              Voulez-vous vraiment supprimer l&apos;opportunité #{deletingId} ?
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setDeletingId(null)}
+                className="px-3 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-100"
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                onClick={() => remove(deletingId)}
+                className="px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+              >
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

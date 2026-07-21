@@ -1,15 +1,15 @@
 import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "crypto";
 
 export const ADMIN_SESSION_COOKIE = "optrack_admin_session";
+// Session lifetime: 12 hours.
 const ADMIN_SESSION_TTL_SECONDS = 60 * 60 * 12;
 
 function getSessionSecret() {
-  return (
-    process.env.ADMIN_SESSION_SECRET ||
-    process.env.DATABASE_URL_UNPOOLED ||
-    process.env.DATABASE_URL ||
-    "optrack-admin-dev-secret"
-  );
+  if (process.env.ADMIN_SESSION_SECRET) return process.env.ADMIN_SESSION_SECRET;
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("ADMIN_SESSION_SECRET is required in production.");
+  }
+  return "optrack-admin-dev-secret";
 }
 
 function toBase64Url(input) {
