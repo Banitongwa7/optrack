@@ -10,7 +10,7 @@ const { PrismaClient } = require("@prisma/client");
 const { randomBytes, scryptSync } = require("crypto");
 
 const prisma = new PrismaClient();
-const DEFAULT_ADMIN_EMAIL = process.env.DEFAULT_ADMIN_EMAIL || "admin@optrack.cd";
+const DEFAULT_ADMIN_EMAIL = process.env.DEFAULT_ADMIN_EMAIL || "admin@optrack.com";
 const DEFAULT_ADMIN_PASSWORD = process.env.DEFAULT_ADMIN_PASSWORD || "admin123";
 
 function hashPassword(password) {
@@ -144,6 +144,7 @@ async function main() {
   });
   console.log(`Admin user ready: ${DEFAULT_ADMIN_EMAIL}`);
 
+  /*
   const existing = await prisma.opportunity.count();
   if (existing > 0) {
     if (process.env.FORCE_SEED !== "1") {
@@ -158,6 +159,7 @@ async function main() {
   const rows = buildOpportunities(120);
   const { count } = await prisma.opportunity.createMany({ data: rows });
   console.log(`Seeded ${count} opportunities.`);
+  */
 }
 
 main()
