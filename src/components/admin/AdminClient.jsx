@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const EMPTY_FORM = {
   id: "",
@@ -28,6 +28,10 @@ export default function AdminClient({ email }) {
   const [submitting, setSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [form, setForm] = useState(EMPTY_FORM);
+  const [importFile, setImportFile] = useState(null);
+  const [importing, setImporting] = useState(false);
+  const [downloadingTemplate, setDownloadingTemplate] = useState(false);
+  const fileInputRef = useRef(null);
 
   const selectedId = useMemo(() => Number(form.id), [form.id]);
 
@@ -146,6 +150,90 @@ export default function AdminClient({ email }) {
     window.location.href = "/admin/login";
   };
 
+  const importExcel = async (event) => {
+    event.preventDefault();
+
+    if (!importFile) {
+      setError("Sélectionnez un fichier Excel à importer.");
+      setMessage("");
+      return;
+    }
+
+    setImporting(true);
+    setError("");
+    setMessage("");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", importFile);
+
+      const response = await fetch("/api/admin/opportunity/import", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+      if (response.status === 401) {
+        window.location.href = "/admin/login";
+        return;
+      }
+
+      if (!response.ok) {
+        const details = Array.isArray(result.details) && result.details.length > 0
+          ? ` ${result.details.slice(0, 3).join(" | ")}`
+          : "";
+        setError((result.error || "Import impossible") + details);
+        return;
+      }
+
+      setMessage(`${result.count || 0} opportunité(s) importée(s).`);
+      setImportFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      await loadRows();
+    } catch {
+      setError("Erreur pendant l'import.");
+    } finally {
+      setImporting(false);
+    }
+  };
+
+  const downloadTemplate = async () => {
+    setDownloadingTemplate(true);
+    setError("");
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/admin/opportunity/template");
+
+      if (response.status === 401) {
+        window.location.href = "/admin/login";
+        return;
+      }
+
+      if (!response.ok) {
+        const result = await response.json();
+        setError(result.error || "Téléchargement impossible");
+        return;
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "optrack-import-template.xlsx";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      setError("Erreur pendant le téléchargement du modèle.");
+    } finally {
+      setDownloadingTemplate(false);
+    }
+  };
+
   return (
     <section className="w-full px-4 sm:px-6 lg:px-10 py-6">
       <div className="flex flex-wrap justify-between items-center gap-3 border-b border-gray-300 pb-4">
@@ -160,6 +248,45 @@ export default function AdminClient({ email }) {
         >
           Se déconnecter
         </button>
+      </div>
+
+      <div className="mt-6 bg-white border border-gray-200 rounded-lg p-4">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h2 className="text-lg font-medium text-gray-900">Import Excel</h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Importez des opportunités depuis un fichier Excel et téléchargez un modèle prêt à remplir.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={downloadTemplate}
+            disabled={downloadingTemplate}
+            className="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-100 disabled:opacity-60"
+          >
+            {downloadingTemplate ? "Téléchargement..." : "Télécharger le modèle Excel"}
+          </button>
+        </div>
+
+        <form onSubmit={importExcel} className="mt-4 flex flex-col gap-3 md:flex-row md:items-end">
+          <label className="block flex-1 text-sm font-medium text-gray-700">
+            Fichier Excel
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".xlsx,.xls"
+              onChange={(event) => setImportFile(event.target.files?.[0] || null)}
+              className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 bg-white"
+            />
+          </label>
+          <button
+            type="submit"
+            disabled={importing}
+            className="px-4 py-2 bg-dark-purple text-white rounded-md hover:opacity-95 disabled:opacity-60"
+          >
+            {importing ? "Import en cours..." : "Importer le fichier"}
+          </button>
+        </form>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-6">
