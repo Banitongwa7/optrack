@@ -41,6 +41,7 @@ export default function AdminLoginPage() {
     <section className="w-full min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
       <form
         onSubmit={onSubmit}
+        aria-label="Formulaire de connexion administrateur"
         className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm p-6"
       >
         <h1 className="text-2xl font-semibold text-gray-900">Administration</h1>

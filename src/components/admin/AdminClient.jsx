@@ -36,7 +36,7 @@ export default function AdminClient({ email }) {
     setError("");
 
     try {
-      const response = await fetch("/api/admin/opportunity", { cache: "no-store" });
+      const response = await fetch("/api/admin/opportunity");
       if (response.status === 401) {
         window.location.href = "/admin/login";
         return;
