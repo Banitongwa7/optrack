@@ -7,6 +7,7 @@ import { FaRegMap } from "react-icons/fa";
 import { MdArrowBackIosNew, MdMenu, MdClose } from "react-icons/md";
 import { ImEarth } from "react-icons/im";
 import { FaDatabase } from "react-icons/fa6";
+import { MdAdminPanelSettings } from "react-icons/md";
 import { useRouter, usePathname } from "next/navigation";
 
 const Menus = [
@@ -14,6 +15,7 @@ const Menus = [
   { title: "Map", icon: <ImEarth />, link: "/map" },
   { title: "Analytics", icon: <AiOutlineBarChart />, link: "/analytics" },
   { title: "Explore Data", icon: <FaDatabase />, link: "/explore" },
+  { title: "Admin", icon: <MdAdminPanelSettings />, link: "/admin" },
 ];
 
 export default function NavBar() {
