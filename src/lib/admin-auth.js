@@ -54,8 +54,8 @@ export function verifySessionToken(token) {
   if (!payload || !signature) return null;
 
   const expected = sign(payload);
-  const signatureBuffer = Buffer.from(signature);
-  const expectedBuffer = Buffer.from(expected);
+  const signatureBuffer = Buffer.from(signature, "base64url");
+  const expectedBuffer = Buffer.from(expected, "base64url");
   if (signatureBuffer.length !== expectedBuffer.length) return null;
   if (!timingSafeEqual(signatureBuffer, expectedBuffer)) return null;
 

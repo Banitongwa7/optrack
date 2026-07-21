@@ -122,19 +122,23 @@ export default function AdminClient({ email }) {
     setError("");
     setMessage("");
 
-    const response = await fetch(`/api/admin/opportunity?id=${id}`, {
-      method: "DELETE",
-    });
-    const result = await response.json();
-    if (!response.ok) {
-      setError(result.error || "Suppression impossible");
-      return;
-    }
+    try {
+      const response = await fetch(`/api/admin/opportunity?id=${id}`, {
+        method: "DELETE",
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        setError(result.error || "Suppression impossible");
+        return;
+      }
 
-    if (String(form.id) === String(id)) resetForm();
-    setMessage("Opportunité supprimée.");
-    await loadRows();
-    setDeletingId(null);
+      if (String(form.id) === String(id)) resetForm();
+      setMessage("Opportunité supprimée.");
+      await loadRows();
+      setDeletingId(null);
+    } catch {
+      setError("Erreur réseau");
+    }
   };
 
   const logout = async () => {
