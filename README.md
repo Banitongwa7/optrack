@@ -10,8 +10,9 @@ Built with [Next.js 14](https://nextjs.org/) (App Router), [Prisma](https://www.
 - **Map** — opportunities by country on Google Maps (proportional markers) or a built-in world choropleth, with month/year filters, zoom, hover tooltips and a ranked side panel; click a country (or the ranking list) to jump to its filtered data.
 - **Analytics** — top countries, breakdown by domain, evolution by year, work mode and open-vs-closed charts.
 - **Explore Data** — paginated table with full-text search; country, type, domain, year, status and work-mode filters; sortable columns; a detail sheet per opportunity; CSV export of the current view; shareable filter URLs.
+- **Admin** — protected interface to create, edit and delete opportunities.
 
-OpTrack is **read-only by design**: the web app is for consulting opportunities, not editing them. Data is managed through the seed script or `npx prisma studio`.
+Public pages stay read-only, while `/admin` is reserved for data management.
 
 ## Getting started
 
@@ -39,6 +40,11 @@ npm install            # also runs prisma generate
 npm run db:migrate     # applies prisma/migrations
 npm run db:seed        # inserts 120 demo opportunities (skips if data exists)
 ```
+
+Default admin access after seeding:
+
+- Email: `admin@optrack.cd`
+- Password: `admin123`
 
 ### 3. Google Maps (optional)
 

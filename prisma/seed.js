@@ -7,8 +7,17 @@
  * Usage: npx prisma db seed
  */
 const { PrismaClient } = require("@prisma/client");
+const { randomBytes, scryptSync } = require("crypto");
 
 const prisma = new PrismaClient();
+const DEFAULT_ADMIN_EMAIL = process.env.DEFAULT_ADMIN_EMAIL || "admin@optrack.cd";
+const DEFAULT_ADMIN_PASSWORD = process.env.DEFAULT_ADMIN_PASSWORD || "admin123";
+
+function hashPassword(password) {
+  const salt = randomBytes(16).toString("hex");
+  const hash = scryptSync(password, salt, 64).toString("hex");
+  return `${salt}:${hash}`;
+}
 
 // Small deterministic RNG so the seed is reproducible.
 function mulberry32(a) {
@@ -123,6 +132,18 @@ function buildOpportunities(count) {
 }
 
 async function main() {
+  await prisma.adminUser.upsert({
+    where: { email: DEFAULT_ADMIN_EMAIL },
+    update: {
+      password_hash: hashPassword(DEFAULT_ADMIN_PASSWORD),
+    },
+    create: {
+      email: DEFAULT_ADMIN_EMAIL,
+      password_hash: hashPassword(DEFAULT_ADMIN_PASSWORD),
+    },
+  });
+  console.log(`Admin user ready: ${DEFAULT_ADMIN_EMAIL}`);
+
   const existing = await prisma.opportunity.count();
   if (existing > 0) {
     if (process.env.FORCE_SEED !== "1") {
