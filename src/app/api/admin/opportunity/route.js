@@ -1,63 +1,9 @@
 import prisma from "@/lib/prisma";
 import { getSessionFromRequest } from "@/lib/admin-auth";
+import { parseOpportunityPayload } from "@/lib/opportunity-admin";
 
 function unauthorized() {
   return Response.json({ error: "Unauthorized" }, { status: 401 });
-}
-
-function parseBoolean(value, fieldName) {
-  if (typeof value === "boolean") return value;
-  if (value === "true") return true;
-  if (value === "false") return false;
-  throw new Error(`${fieldName} must be true or false`);
-}
-
-function parseOptionalDate(value, fieldName) {
-  if (value === null || value === undefined || value === "") return null;
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    throw new Error(`${fieldName} must be a valid date`);
-  }
-  return date;
-}
-
-function parseOptionalInteger(value, fieldName) {
-  if (value === null || value === undefined || value === "") return null;
-  const parsed = Number(value);
-  if (!Number.isInteger(parsed)) {
-    throw new Error(`${fieldName} must be an integer`);
-  }
-  return parsed;
-}
-
-function parseOpportunityPayload(body) {
-  const name = body?.name?.trim();
-  const company = body?.company?.trim();
-  const type_opportunity = body?.type_opportunity?.trim();
-  const url = body?.url?.trim();
-  const country = body?.country?.trim();
-  const city = body?.city?.trim();
-
-  if (!name || !company || !type_opportunity || !url || !country || !city) {
-    throw new Error("name, company, type_opportunity, url, country, city are required");
-  }
-
-  return {
-    name,
-    description: body?.description?.trim() || null,
-    company,
-    email_company: body?.email_company?.trim() || null,
-    type_opportunity,
-    remote: body?.remote === undefined ? false : parseBoolean(body?.remote, "remote"),
-    domain: body?.domain?.trim() || null,
-    url,
-    country,
-    city,
-    year: parseOptionalInteger(body?.year, "year"),
-    begin_at: parseOptionalDate(body?.begin_at, "begin_at"),
-    end_at: parseOptionalDate(body?.end_at, "end_at"),
-    closed: body?.closed === null || body?.closed === undefined || body?.closed === "" ? null : parseBoolean(body.closed, "closed"),
-  };
 }
 
 export async function GET(req) {
