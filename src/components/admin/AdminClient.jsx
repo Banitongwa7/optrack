@@ -48,7 +48,7 @@ export default function AdminClient({ email }) {
       }
       setRows(result.data || []);
     } catch {
-      setError("Erreur réseau");
+      setError("Erreur de chargement");
     } finally {
       setLoading(false);
     }
@@ -112,7 +112,7 @@ export default function AdminClient({ email }) {
       resetForm();
       await loadRows();
     } catch {
-      setError("Erreur réseau");
+      setError("Erreur de traitement");
     } finally {
       setSubmitting(false);
     }
@@ -137,7 +137,7 @@ export default function AdminClient({ email }) {
       await loadRows();
       setDeletingId(null);
     } catch {
-      setError("Erreur réseau");
+      setError("Erreur de traitement");
     }
   };
 

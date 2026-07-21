@@ -48,7 +48,7 @@ function parseOpportunityPayload(body) {
     company,
     email_company: body?.email_company?.trim() || null,
     type_opportunity,
-    remote: parseBoolean(body?.remote, "remote"),
+    remote: body?.remote === undefined ? false : parseBoolean(body?.remote, "remote"),
     domain: body?.domain?.trim() || null,
     url,
     country,
